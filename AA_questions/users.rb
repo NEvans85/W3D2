@@ -1,9 +1,9 @@
-require_relative 'questions_db_manager'
+require_relative 'QuestionsDBManager'
 
 class User
 
   def self.find_by_id(id)
-    user = Questions_DB_Manager.instance.execute(<<-SQL, id)
+    user = QuestionsDBManager.instance.execute(<<-SQL, id)
     SELECT
       *
     FROM
@@ -15,7 +15,7 @@ class User
   end
 
   def self.find_by_name(fname, lname)
-    user = Questions_DB_Manager.instance.execute(<<-SQL, fname, lname)
+    user = QuestionsDBManager.instance.execute(<<-SQL, fname, lname)
     SELECT
       *
     FROM
@@ -27,7 +27,7 @@ class User
   end
 
   def self.all
-    entries = Questions_DB_Manager.instance.execute(<<-SQL)
+    entries = QuestionsDBManager.instance.execute(<<-SQL)
     SELECT
       *
     FROM
