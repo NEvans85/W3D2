@@ -1,3 +1,5 @@
+require_relative "questions_db_manager.rb"
+
 class QuestionLike
   def self.find_by_author_id(author_id)
     results = QuestionsDBManager.instance.execute(<<-SQL, author_id)

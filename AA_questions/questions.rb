@@ -1,3 +1,5 @@
+require_relative "questions_db_manager.rb"
+
 class Question
 
   def self.find_by_id(id)
