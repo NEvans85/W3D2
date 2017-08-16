@@ -1,14 +1,14 @@
 require_relative "questions_db_manager.rb"
 
 class QuestionLike
-  def self.find_by_author_id(author_id)
-    results = QuestionsDBManager.instance.execute(<<-SQL, author_id)
+  def self.find_by_user_id(user_id)
+    results = QuestionsDBManager.instance.execute(<<-SQL, user_id)
       SELECT
         *
       FROM
         question_likes
       WHERE
-        author_id = ?
+        user_id = ?
     SQL
     results.map { |entry| QuestionLike.new(entry) }
   end
@@ -27,7 +27,7 @@ class QuestionLike
 
   def initialize(options)
     @id = options['id']
-    @author_id = options['author_id']
+    @user_id = options['user_id']
     @question_id = options['question_id']
   end
 end

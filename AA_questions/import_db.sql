@@ -44,25 +44,43 @@ CREATE TABLE question_likes(
   FOREIGN KEY (question_id) REFERENCES questions(id)
 );
 
-INSERT INTO users (fname, lname)
-VALUES ('Brian', 'Scott'),
-('Robert', 'Scott'),
-('Chuck', 'Miller');
+INSERT INTO
+  users (fname, lname)
+VALUES
+  ('Brian', 'Scott'),
+  ('Robert', 'Scott'),
+  ('Chuck', 'Miller');
 
-INSERT INTO questions (title, body, author_id)
-VALUES ('directions', 'where is AA located?',
- (SELECT id FROM users WHERE (fname = 'Chuck' AND lname = 'Miller'))),
+INSERT INTO
+  questions (title, body, author_id)
+VALUES
+  ('directions', 'where is AA located?',
+    (SELECT id FROM users WHERE fname = 'Chuck' AND lname = 'Miller')),
+  ('furthermore', 'one more question...',
+    (SELECT id FROM users WHERE fname = 'Brian' AND lname = 'Scott')),
+  ('lunchtime', 'when is lunchtime?',
+    (SELECT id FROM users WHERE fname = 'Robert' AND lname = 'Scott')),
+  ('lost and found', 'did I leave that thing at AA?',
+    (SELECT id FROM users WHERE fname = 'Chuck' AND lname = 'Miller'));
 
-('furthermore', 'one more question...',
-  (SELECT id FROM users WHERE fname = 'Brian' AND lname = 'Scott')),
 
-('lunchtime', 'when is lunchtime?',
-  (SELECT id FROM users WHERE fname = 'Robert' AND lname = 'Scott')),
-('lost and found', 'did I leave that thing at AA?',
-  (SELECT id FROM users WHERE fname = 'Chuck' AND lname = 'Miller'));
+INSERT INTO
+  replies (question_id, author_id, parent_reply_id, body)
+VALUES
+  (3, 1, NULL, '12:00'),
+  (3, 3, 1, 'yes it just switched from 12:15'),
+  (4, 2, NULL, 'yup, mine now!');
 
+INSERT INTO
+  question_follows (question_id, user_id)
+VALUES
+  (1, 3),
+  (1, 2),
+  (4, 1);
 
-INSERT INTO replies (question_id, author_id, parent_reply_id, body)
-VALUES (3, 1, NULL, '12:00'),
-(3, 3, 1, 'yes it just switched from 12:15'),
-(4, 2, NULL, 'yup, mine now!');
+INSERT INTO
+  question_likes (question_id, user_id)
+VALUES
+  (2, 3),
+  (3, 1),
+  (4, 2);

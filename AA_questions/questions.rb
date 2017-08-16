@@ -14,17 +14,14 @@ class Question
     Question.new(result.first)
   end
 
-  def self.find_by_author(fname, lname)
-    results = QuestionsDBManager.instance.execute(<<-SQL, fname, lname)
+  def self.find_by_author_id(author_id)
+    results = QuestionsDBManager.instance.execute(<<-SQL, author_id)
       SELECT
-        questions.*
+        *
       FROM
         questions
-        JOIN users
-          ON questions.author_id = users.id
       WHERE
-        users.fname = ? AND
-        users.lname = ?
+        author_id = ?
     SQL
     results.map { |entry| Question.new(entry) }
   end
@@ -47,5 +44,13 @@ class Question
     @title = options['title']
     @body = options['body']
     @author_id = options['author_id']
+  end
+
+  def author
+    User.find_by_id(@author_id)
+  end
+
+  def replies
+    Reply.find_by_question_id(@id)
   end
 end
